@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Profissionais - SGHSS{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Profissionais</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Especialidade</th>
+            <th>CRM</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for profissional in profissionais %}
+        <tr>
+            <td>{{ profissional.nome }}</td>
+            <td>{{ profissional.especialidade }}</td>
+            <td>{{ profissional.crm }}</td>
+            <td>
+                <a href="/profissionais/editar/{{ profissional.id }}" class="btn btn-sm btn-primary">Editar</a>
+                <a href="/profissionais/excluir/{{ profissional.id }}" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center">Nenhum profissional cadastrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

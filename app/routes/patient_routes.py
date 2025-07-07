@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from uuid import uuid4
 from app.schemas.patient_schema import PatientCreate, PatientUpdate, PatientResponse
-from app.services.firebase import db  # Corrigido o caminho para a pasta correta
+from app.services.firebase import db
 
 router = APIRouter()
 patients_collection = db.collection("patients")
@@ -46,6 +46,10 @@ def update_patient(patient_id: str, update: PatientUpdate):
         update_data["telefone"] = update.telefone
     if update.endereco is not None:
         update_data["endereco"] = update.endereco
+    if update.data_nascimento is not None:
+        update_data["data_nascimento"] = update.data_nascimento.isoformat()
+    if update.cpf is not None:
+        update_data["cpf"] = update.cpf
 
     if not update_data:
         raise HTTPException(status_code=400, detail="Nenhuma informação para atualizar.")

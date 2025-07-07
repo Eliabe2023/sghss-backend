@@ -6,7 +6,7 @@ from app.schemas.appointment_schema import AppointmentCreate, AppointmentUpdate,
 router = APIRouter()
 appointments_collection = db.collection("appointments")
 
-@router.post("/appointments/", response_model=AppointmentResponse)
+@router.post("/", response_model=AppointmentResponse)
 def create_appointment(appt: AppointmentCreate):
     appt_id = str(uuid4())
     data = {
@@ -19,12 +19,12 @@ def create_appointment(appt: AppointmentCreate):
     appointments_collection.document(appt_id).set(data)
     return AppointmentResponse(**data)
 
-@router.get("/appointments/", response_model=list[AppointmentResponse])
+@router.get("/", response_model=list[AppointmentResponse])
 def list_appointments():
     docs = appointments_collection.stream()
     return [AppointmentResponse(**{**doc.to_dict(), "data_hora": doc.to_dict()["data_hora"]}) for doc in docs]
 
-@router.put("/appointments/{appt_id}", response_model=AppointmentResponse)
+@router.put("/{appt_id}", response_model=AppointmentResponse)
 def update_appointment(appt_id: str, update: AppointmentUpdate):
     ref = appointments_collection.document(appt_id)
     doc = ref.get()
@@ -45,7 +45,7 @@ def update_appointment(appt_id: str, update: AppointmentUpdate):
     updated = ref.get().to_dict()
     return AppointmentResponse(**updated)
 
-@router.delete("/appointments/{appt_id}")
+@router.delete("/{appt_id}")
 def delete_appointment(appt_id: str):
     ref = appointments_collection.document(appt_id)
     if not ref.get().exists:

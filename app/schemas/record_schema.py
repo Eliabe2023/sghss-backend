@@ -1,19 +1,22 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
+from typing import Optional
+
+class MedicalRecordBase(BaseModel):
+    paciente_id: str
+    profissional_id: str
+    descricao: str
+    data_registro: str
 
 class MedicalRecordCreate(BaseModel):
     paciente_id: str
     profissional_id: str
     descricao: str
-    data_registro: Optional[datetime] = None  # Pode ser preenchida automaticamente
+    data_registro: Optional[datetime] = None
 
 class MedicalRecordUpdate(BaseModel):
     descricao: Optional[str] = None
 
-class MedicalRecordResponse(BaseModel):
+class MedicalRecordResponse(MedicalRecordBase):
     id: str
-    paciente_id: str
-    profissional_id: str
-    descricao: str
-    data_registro: datetime
+    model_config = ConfigDict(from_attributes=True)

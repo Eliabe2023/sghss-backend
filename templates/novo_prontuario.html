@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Novo Prontuário</h2>
+<form method="post">
+  <label>Paciente:
+    <select name="paciente_id" required>
+      {% for p in pacientes %}
+      <option value="{{ p.id }}">{{ p.nome }}</option>
+      {% endfor %}
+    </select>
+  </label><br>
+  <label>Descrição: <textarea name="descricao" required></textarea></label><br>
+  <label>Data: <input type="date" name="data" required></label><br>
+  <button type="submit">Salvar</button>
+</form>
+<a href="/prontuarios">Voltar</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Nova Consulta</h2>
+<form method="post">
+  <label>Paciente:
+    <select name="paciente_id" required>
+      {% for p in pacientes %}
+      <option value="{{ p.id }}">{{ p.nome }}</option>
+      {% endfor %}
+    </select>
+  </label><br>
+  <label>Profissional:
+    <select name="profissional_id" required>
+      {% for prof in profissionais %}
+      <option value="{{ prof.id }}">{{ prof.nome }}</option>
+      {% endfor %}
+    </select>
+  </label><br>
+  <label>Data: <input type="date" name="data" required></label><br>
+  <label>Horário: <input type="time" name="horario" required></label><br>
+  <button type="submit">Agendar</button>
+</form>
+<a href="/consultas">Voltar</a>
+{% endblock %}

@@ -2,13 +2,12 @@ from fastapi import APIRouter, HTTPException
 from uuid import uuid4
 from datetime import datetime
 from app.services.firebase import db
-
 from app.schemas.record_schema import MedicalRecordCreate, MedicalRecordUpdate, MedicalRecordResponse
 
 router = APIRouter()
 records_collection = db.collection("medical_records")
 
-@router.post("/records/", response_model=MedicalRecordResponse)
+@router.post("/", response_model=MedicalRecordResponse)
 def create_record(record: MedicalRecordCreate):
     record_id = str(uuid4())
     data = {
@@ -21,12 +20,12 @@ def create_record(record: MedicalRecordCreate):
     records_collection.document(record_id).set(data)
     return MedicalRecordResponse(**data)
 
-@router.get("/records/", response_model=list[MedicalRecordResponse])
+@router.get("/", response_model=list[MedicalRecordResponse])
 def list_records():
     docs = records_collection.stream()
     return [MedicalRecordResponse(**{**doc.to_dict(), "data_registro": doc.to_dict()["data_registro"]}) for doc in docs]
 
-@router.put("/records/{record_id}", response_model=MedicalRecordResponse)
+@router.put("/{record_id}", response_model=MedicalRecordResponse)
 def update_record(record_id: str, update: MedicalRecordUpdate):
     ref = records_collection.document(record_id)
     doc = ref.get()
@@ -44,7 +43,7 @@ def update_record(record_id: str, update: MedicalRecordUpdate):
     updated = ref.get().to_dict()
     return MedicalRecordResponse(**updated)
 
-@router.delete("/records/{record_id}")
+@router.delete("/{record_id}")
 def delete_record(record_id: str):
     ref = records_collection.document(record_id)
     if not ref.get().exists:

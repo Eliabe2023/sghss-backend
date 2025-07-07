@@ -1,23 +1,23 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
-class ProfessionalCreate(BaseModel):
+class ProfessionalBase(BaseModel):
     nome: str
     especialidade: str
     crm: str
     telefone: str
-    email: EmailStr
+    email: str
+
+class ProfessionalCreate(ProfessionalBase):
+    pass
 
 class ProfessionalUpdate(BaseModel):
     nome: Optional[str] = None
     especialidade: Optional[str] = None
+    crm: Optional[str] = None
     telefone: Optional[str] = None
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
 
-class ProfessionalResponse(BaseModel):
+class ProfessionalResponse(ProfessionalBase):
     id: str
-    nome: str
-    especialidade: str
-    crm: str
-    telefone: str
-    email: EmailStr
+    model_config = ConfigDict(from_attributes=True)

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Novo Profissional</h2>
+<form method="post">
+  <label>Nome: <input type="text" name="nome" required></label><br>
+  <label>Especialidade: <input type="text" name="especialidade" required></label><br>
+  <label>CRM: <input type="text" name="crm" required></label><br>
+  <button type="submit">Cadastrar</button>
+</form>
+<a href="/profissionais">Voltar</a>
+{% endblock %}
